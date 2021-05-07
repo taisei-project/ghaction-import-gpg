@@ -20,14 +20,14 @@ export const readPrivateKey = async (key: string): Promise<PrivateKey> => {
   });
 
   const address = await privateKey.getPrimaryUser().then(primaryUser => {
-    return addressparser(primaryUser.user.userId?.userid)[0];
+    return addressparser(primaryUser.user.userID?.userID)[0];
   });
 
   return {
     fingerprint: privateKey.getFingerprint().toUpperCase(),
     keyID: await privateKey.getEncryptionKey().then(encKey => {
       // @ts-ignore
-      return encKey?.getKeyId().toHex().toUpperCase();
+      return encKey?.getKeyID().toHex().toUpperCase();
     }),
     name: address.name,
     email: address.address,
@@ -37,7 +37,7 @@ export const readPrivateKey = async (key: string): Promise<PrivateKey> => {
 
 export const generateKeyPair = async (name: string, email: string, passphrase: string, type?: 'ecc' | 'rsa'): Promise<KeyPair> => {
   const keyPair = await openpgp.generateKey({
-    userIds: [{name: name, email: email}],
+    userIDs: [{name: name, email: email}],
     passphrase: passphrase,
     type: type
   });
